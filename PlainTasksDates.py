@@ -439,7 +439,7 @@ class PlainTaskInsertDate(PlainTasksBase):
         if region:
             y, m, d, H, M = date
             region = sublime.Region(*region)
-            self.view.replace(edit, region, datetime(y, m, d, H, M, 0).strftime(self.date_format) + ' ')
+            self.view.replace(edit, region, datetime(y, m, d, H, M, 0).strftime(self.date_format))
             self.view.sel().clear()
             self.view.sel().add(sublime.Region(self.view.line(region).b))
             return
