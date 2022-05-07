@@ -425,7 +425,7 @@ class PlainTasksArchiveCommand(PlainTasksBase):
             if archive_pos and archive_pos.a > 0:
                 line = self.view.full_line(archive_pos).end()
             else:
-                create_archive = u'\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿\n%s\n' % self.archive_name
+                create_archive = u'\n\n---- ✄ -----------------------\n\n\n## Archive (linear)\n\n%s\n' % self.archive_name
                 self.view.insert(edit, self.view.size(), create_archive)
                 line = self.view.size()
 
