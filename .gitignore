@@ -1,4 +1,8 @@
+# This is the top-most .gitignore file
+# OS / IDE sidecar files and other artifacts justified for omission
+# should be listed in the `.git/info/exclude` file
+
+# Project Specifics
 *.cache
 *.pyc
-.DS_Store
 package-metadata.json
