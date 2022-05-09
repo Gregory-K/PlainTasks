@@ -8,6 +8,7 @@ import webbrowser
 import itertools
 import threading
 from datetime import datetime, tzinfo, timedelta
+from urllib.parse import unquote
 import time
 
 platform = sublime.platform()
@@ -798,6 +799,8 @@ class PlainTasksOpenLinkCommand(sublime_plugin.TextCommand):
             fn   = (fn.replace('\\[', '[').replace('\\]', ']'))
             if text:
                 text = (text.replace('\\[', '[').replace('\\]', ']'))
+        else:  # assing vars in case of unmatch/failure
+            fn = sym = line = col = text = ''
         return fn, sym, line or 0, col or 0, text
 
 
