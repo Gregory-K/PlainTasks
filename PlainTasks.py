@@ -673,6 +673,8 @@ class PlainTasksOpenLinkCommand(sublime_plugin.TextCommand):
     def search_files(self, all_folders, fn, sym, line, col, text):
         '''run in separate thread; worker'''
         fn = fn.replace('/', os.sep)
+        # decode path URI
+        fn = unquote(fn)
         if os.path.isfile(fn):  # check for full path
             self._current_res.append((fn, line, col, "f"))
         elif os.path.isdir(fn):
