@@ -1,8 +1,227 @@
-## [PlainTasks](https://github.com/aziz/PlainTasks) 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d42f3e49d104ab8bf663392661b183b)](https://www.codacy.com/app/allen-bargi/PlainTasks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aziz/PlainTasks&amp;utm_campaign=Badge_Grade)
+# PlainTasks (ST4)
+
+This a **fork of [PlainTasks](https://github.com/warmdev/PlainTasks)**: An opinionated todo-list plugin for [Sublime Text](https://www.sublimetext.com/) editor.
+
+Current '[**dev**](https://github.com/Gregory-K/PlainTasks)' branch is just a personal sandbox.
+
+TASKS:    
+- Remove the default keymaps. **@done**  
+  <sup>and minimize the override effort by the user</sup>
+- Harmonization with the PlainTasks Overview python script. **@done**  
+  <sup>(sometime in the future, it may be publicly available)</sup>
+- Remove openlink and openurl commands **@done**  
+  <sup>func. provided now by the FilePath (soon) ST plugin and ST4 natively</sup>
+- Incorporate the PlainTasks Material Theme.
+- Transition to ST4 and Python 3.8 only  
+  <sup>(Why not? fewer "if"s less code)</sup>
+- Incorporate the PlainTasks Mariana Theme.
+
+
+## Try
+
+for whomsoever wants to try it
+
+### Install
+
+Remove "PlainTasks" from "Package Control", if previously installed.
+
+Add to `Packages/User/Package Control.sublime-settings`,
+
+```
+  "ignore_vcs_packages":
+  [
+    "PlainTasks"
+  ]
+```
+
+#### Manual installation
+
+1. Clone or download this repository (the default 'dev' branch for ST4 or the corresponding branch for ST2 and ST3 _see [Notes](#Notes)_).
+2. Rename the cloned or extracted root folder to `PlainTasks`.
+3. Move the `PlainTasks` folder to your Sublime Text's `Packages` folder. To find the `Packages` folder, click menu `Preferences` > `Browse Packages`.
+4. Restart Sublime Text.
+
+_alt. way_  
+1. Go to `Packages` folder (if you don't know, click menu `Preferences` > `Browse Packages`).
+2. Create a directory named 'PlainTasks' and 'cd' inside it.
+3. From command line
+    - Default 'dev' branch  
+      `git clone --depth 1 https://github.com/Gregory-K/PlainTasks .`
+    - 'dev-ST3' and 'dev-ST2' branches _see [Notes](#Notes)_  
+      `git clone --depth 1 --branch dev-ST3 https://github.com/Gregory-K/PlainTasks .`
+
+#### Update
+
+Delete the contents of `Packages/PlainTasks` folder and repeat installation,  
+
+or
+
+'cd' in `Packages/PlainTasks` and  
+`git fetch && git rebase` for Linux  
+`git fetch; git rebase` for Windows
+
+### Key Bindings
+
+Choose, alter, or leave them as is. Your choice.
+
+Add to `Packages/User/Default.sublime-keymap`
+
+_also found in the repository as `*.sublime-keymap.json` files:_
+
+<details>
+  <summary>Linux</summary>
+
+```json
+// PlainTasks
+{ "keys": ["ctrl+d"], "command": "plain_tasks_complete","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["alt+c"], "command": "plain_tasks_cancel", "context": [{"key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+enter"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+i"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+enter"], "command": "plain_tasks_new_with_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+a"], "command": "plain_tasks_archive","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+o"], "command": "plain_tasks_archive_org","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+u"], "command": "plain_tasks_open_url","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["alt+o"], "command": "plain_tasks_open_link","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+r"], "command": "plain_tasks_goto_tag", "context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f4"], "command": "plain_tasks_inject_due_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f5"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f7"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }], "args": {"descending": true} },
+{ "keys": ["tab"], "command": "plain_task_insert_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "(@started|@toggle|@created)(?!\\([\\d\\w,\\.:\\-\/ @]*\\))", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_replace_short_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "@due\\([^\\)]+(?!.*?\\))", "match_all": true },
+    { "key": "following_text", "operator": "regex_contains", "operand": "[ \t]*\\)", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_re_calculate_time_for_tasks", "context":
+  [
+    { "key": "selector", "operator": "equal", "operand": "text.todo meta.tag.todo.completed, text.todo meta.tag.todo.cancelled" }
+  ]
+}
+```
+
+</details>
+
+<details>
+  <summary>OSX / MacOS</summary>
+
+```json
+// PlainTasks
+{ "keys": ["super+d"], "command": "plain_tasks_complete","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+c"], "command": "plain_tasks_cancel", "context": [{"key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+enter"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+i"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+shift+enter"], "command": "plain_tasks_new_with_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+shift+a"], "command": "plain_tasks_archive","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+shift+o"], "command": "plain_tasks_archive_org","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+shift+u"], "command": "plain_tasks_open_url","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+o"], "command": "plain_tasks_open_link","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["super+shift+r"], "command": "plain_tasks_goto_tag", "context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f4"], "command": "plain_tasks_inject_due_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f5"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f7"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }], "args": {"descending": true} },
+{ "keys": ["tab"], "command": "plain_task_insert_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "(@started|@toggle|@created)(?!\\([\\d\\w,\\.:\\-\/ @]*\\))", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_replace_short_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "@due\\([^\\)]+(?!.*?\\))", "match_all": true },
+    { "key": "following_text", "operator": "regex_contains", "operand": "[ \t]*\\)", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_re_calculate_time_for_tasks", "context":
+  [
+    { "key": "selector", "operator": "equal", "operand": "text.todo meta.tag.todo.completed, text.todo meta.tag.todo.cancelled" }
+  ]
+}
+```
+
+</details>
+
+<details>
+  <summary>Windows</summary>
+
+```json
+// PlainTasks
+{ "keys": ["ctrl+d"], "command": "plain_tasks_complete","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["alt+c"], "command": "plain_tasks_cancel", "context": [{"key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+enter"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+i"], "command": "plain_tasks_new","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+enter"], "command": "plain_tasks_new_with_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+a"], "command": "plain_tasks_archive","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+o"], "command": "plain_tasks_archive_org","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+u"], "command": "plain_tasks_open_url","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["alt+o"], "command": "plain_tasks_open_link","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["ctrl+shift+r"], "command": "plain_tasks_goto_tag", "context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f4"], "command": "plain_tasks_inject_due_date","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f5"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }] },
+{ "keys": ["f7"], "command": "plain_tasks_sort_by_due_date_and_priority","context": [{ "key": "selector", "operator": "equal", "operand": "text.todo" }], "args": {"descending": true} },
+{ "keys": ["tab"], "command": "plain_task_insert_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "(@started|@toggle|@created)(?!\\([\\d\\w,\\.:\\-\/ @]*\\))", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_replace_short_date", "context":
+  [
+    { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+    { "key": "selector", "operator": "equal", "operand": "text.todo" },
+    { "key": "preceding_text", "operator": "regex_contains", "operand": "@due\\([^\\)]+(?!.*?\\))", "match_all": true },
+    { "key": "following_text", "operator": "regex_contains", "operand": "[ \t]*\\)", "match_all": true }
+  ]
+},
+{ "keys": ["tab"], "command": "plain_tasks_re_calculate_time_for_tasks", "context":
+  [
+    { "key": "selector", "operator": "equal", "operand": "text.todo meta.tag.todo.completed, text.todo meta.tag.todo.cancelled" }
+  ]
+}
+```
+
+</details>
+
+
+## Notes
+
+_Note: As mentioned above, this is a "playground". Expect rebases, resets, branch renaming._
+
+Branches:  
+'[**dev**](https://github.com/Gregory-K/PlainTasks)' : default branch for ST4 (WIP).  
+'[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' : branch for ST3.  
+'[**dev-ST2**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST2)' : branch for ST2/ST3.
+
+Other Branches:  
+'[**upstream**](https://github.com/Gregory-K/PlainTasks/tree/upstream)' : clone of the official repository.  
+'[**upstream-dev**](https://github.com/Gregory-K/PlainTasks/tree/upstream-dev)' : whatever changes backported to 'upstream'.
+
+**All credits** goes to the original author [**aziz**](https://github.com/aziz).
+
+Bellow resides the official README file.
+
+
+
+---
+
+
+# Official README
+
+## [PlainTasks](https://github.com/aziz/PlainTasks)
 
 An opinionated todo-list plugin for Sublime Text (2 & 3) editor
-![](http://cl.ly/image/1q100Q212o2Q/ss.png)
 
 ## Installation
 To install this plugin, you have two options:
