@@ -8,8 +8,6 @@ import itertools
 from datetime import datetime
 from datetime import timedelta
 
-NT = sublime.platform() == 'windows'
-
 from .APlainTasksCommon import PlainTasksBase, PlainTasksEnabled, PlainTasksFold
 MARK_SOON = sublime.DRAW_NO_FILL
 MARK_INVALID = sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_SQUIGGLY_UNDERLINE
@@ -21,6 +19,7 @@ except:
     dateutil_parser = None
 
 locale.setlocale(locale.LC_ALL, '')
+NT = sublime.platform() == 'windows'
 
 
 def is_yearfirst(date_format):
@@ -108,8 +107,8 @@ def increase_date(view, region, text, now, date_format):
                                              default=now)
             if error:
                 ln = (view.rowcol(line.a)[0] + 1)
-                print(u'\nPlainTasks:\nError at line %d\n\t%s\ncaused by text:\n\t"%s"\n' % (ln, error, created.group(0)))
-                sublime.status_message(u'@created date is invalid at line %d, see console for details' % ln)
+                print(f'\nPlainTasks:\nError at line {ln}\n\t{error}\ncaused by text:\n\t"{created.group(0)}"\n')
+                sublime.status_message(f'@created date is invalid at line {ln}, see console for details')
             else:
                 now = created_date
 
@@ -182,7 +181,7 @@ def parse_date(date_string, date_format='(%y-%m-%d %H:%M)', yearfirst=True, dayf
     try:
         return datetime.strptime(date_string, date_format), None
     except ValueError as e:
-        # print(e)
+        print(e)
         pass
     bare_date_string = date_string.strip('( )')
     items = len(bare_date_string.split('-' if '-' in bare_date_string else '.'))
@@ -202,7 +201,7 @@ def parse_date(date_string, date_format='(%y-%m-%d %H:%M)', yearfirst=True, dayf
         if NT and all((date.year < 1900, '%y' in date_format)):
             return None, ('format %y requires year >= 1900 on Windows', date.year, date.month, date.day, date.hour, date.minute)
     except Exception as e:
-        # print(e)
+        print(e)
         date, error = convert_date(bare_date_string, default)
     else:
         error = None
@@ -218,7 +217,7 @@ def format_delta(view, delta):
     delta -= timedelta(microseconds=delta.microseconds)
     if view.settings().get('decimal_minutes', False):
         days = delta.days
-        delta = u'%s%s%s%s' % (days or '', ' day, ' if days == 1 else '', ' days, ' if days > 1 else '', '%.2f' % (delta.seconds / 3600.0) if delta.seconds else '')
+        delta = f'{days or ""}{" day, " if days == 1 else ""}{" days, " if days > 1 else ""}{f"{delta.seconds / 3600.0:.2f}" if delta.seconds else ""}'
     else:
         delta = str(delta)
     if delta[~7:] == ' 0:00:00' or delta == '0:00:00':  # strip meaningless time

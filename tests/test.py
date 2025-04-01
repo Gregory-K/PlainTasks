@@ -73,7 +73,7 @@ class TestDatesFunctions(TestCase):
                 return self.created or ''
 
             def line(self, *args):
-                class Obj(object): pass
+                class Obj(object): pass  # noqa: E701
                 Obj.a = Obj.b = 0
                 return Obj
 

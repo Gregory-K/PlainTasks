@@ -8,9 +8,10 @@ import cgi
 import tempfile
 import io
 
-platform = sublime.platform()
 from .plist_parser import parse_file
 from .PlainTasks import PlainTasksBase
+
+platform = sublime.platform()
 
 
 def hex_to_rgba(value):
@@ -24,8 +25,7 @@ def hex_to_rgba(value):
 
 def convert_to_rgba_css(word):
     rgba = hex_to_rgba(word)
-    rgba_css = 'rgb%s(%s)' % ('a' if len(rgba) > 3 else '', ','.join(rgba))
-    return rgba_css
+    return f'rgb{"a" if len(rgba) > 3 else ""}({",".join(rgba)})'
 
 
 default_ccsl = [  # hand-made repr of tasks.hidden-tmTheme
@@ -264,12 +264,12 @@ class PlainTasksConvertToHtml(PlainTasksBase):
         css = '\n'.join(convert_tmtheme_to_css(tmtheme))
         with io.open(os.path.join(ppath, 'PlainTasks/templates/template.html'), 'r', encoding='utf8') as template:
             for line in template:
-                line = (line.replace('$title', title)
-                            .replace('$content', '\n'.join(html_doc))
-                            .replace('$css', css)
-                            .strip('\n'))
+                line = line.replace('$title', title)\
+                          .replace('$content', '\n'.join(html_doc))\
+                          .replace('$css', css)\
+                          .strip('\n')
                 html_lines.append(line)
-        return u'\n'.join(html_lines)
+        return '\n'.join(html_lines)
 
     def extracting_scopes(self, edit, region, scope_name=''):
         '''extract scope for each char in line wo dups, ineffective but it works?'''
