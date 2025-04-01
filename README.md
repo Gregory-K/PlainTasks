@@ -1,20 +1,18 @@
-# PlainTasks (ST4)
+# PlainTasks (ST3)
 
-This a **fork of [PlainTasks](https://github.com/warmdev/PlainTasks)**: An opinionated todo-list plugin for [Sublime Text](https://www.sublimetext.com/) editor.
+This is a **fork of [PlainTasks](https://github.com/warmdev/PlainTasks)**: An opinionated to-do list plugin for [Sublime Text](https://www.sublimetext.com/) editor.
 
-Current '[**dev**](https://github.com/Gregory-K/PlainTasks)' branch is just a personal sandbox.
+Current '[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' branch is just a personal sandbox.  
+It targets Sublime Text 3 and possibly works with ST2 too.  
+Since 2025-04-02, no changes from dev-ST4 will be backported.
 
-TASKS:    
+TASKS:  
 - Remove the default keymaps. **@done**  
-  <sup>and minimize the override effort by the user</sup>
-- Harmonization with the PlainTasks Overview python script. **@done**  
+  <sup>and minimise the override effort by the user</sup>
+- Harmonisation with the PlainTasks Overview Python script. **@done**  
   <sup>(sometime in the future, it may be publicly available)</sup>
 - Remove openlink and openurl commands **@done**  
-  <sup>func. provided now by the FilePath (soon) ST plugin and ST4 natively</sup>
-- Incorporate the PlainTasks Material Theme.
-- Transition to ST4 and Python 3.8 only  
-  <sup>(Why not? fewer "if"s less code)</sup>
-- Incorporate the PlainTasks Mariana Theme.
+  <sup>functionality provided now by the FilePath (soon) ST plugin and ST4 natively</sup>
 
 
 ## Try
@@ -36,7 +34,7 @@ Add to `Packages/User/Package Control.sublime-settings`,
 
 #### Manual installation
 
-1. Clone or download this repository (the default 'dev' branch for ST4 or the corresponding branch for ST2 and ST3 _see [Notes](#Notes)_).
+1. Clone or download this repository (the default 'dev-ST4' branch for ST4 or the 'dev-ST3' branch for ST3/ST2 _see [Notes](#Notes)_).
 2. Rename the cloned or extracted root folder to `PlainTasks`.
 3. Move the `PlainTasks` folder to your Sublime Text's `Packages` folder. To find the `Packages` folder, click menu `Preferences` > `Browse Packages`.
 4. Restart Sublime Text.
@@ -47,7 +45,7 @@ _alt. way_
 3. From command line
     - Default 'dev' branch  
       `git clone --depth 1 https://github.com/Gregory-K/PlainTasks .`
-    - 'dev-ST3' and 'dev-ST2' branches _see [Notes](#Notes)_  
+    - 'dev-ST3' branch _see [Notes](#Notes)_  
       `git clone --depth 1 --branch dev-ST3 https://github.com/Gregory-K/PlainTasks .`
 
 #### Update
@@ -200,17 +198,16 @@ _also found in the repository as `*.sublime-keymap.json` files:_
 _Note: As mentioned above, this is a "playground". Expect rebases, resets, branch renaming._
 
 Branches:  
-'[**dev**](https://github.com/Gregory-K/PlainTasks)' : default branch for ST4 (WIP).  
-'[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' : branch for ST3.  
-'[**dev-ST2**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST2)' : branch for ST2/ST3.
+'[**dev-ST4**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST4)' : default branch for ST4 (WIP).  
+'[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' : branch for ST3/ST2.
 
 Other Branches:  
 '[**upstream**](https://github.com/Gregory-K/PlainTasks/tree/upstream)' : clone of the official repository.  
 '[**upstream-dev**](https://github.com/Gregory-K/PlainTasks/tree/upstream-dev)' : whatever changes backported to 'upstream'.
 
-**All credits** goes to the original author [**aziz**](https://github.com/aziz).
+**All credits** go to the original author [**aziz**](https://github.com/aziz).
 
-Bellow resides the official README file.
+Below resides the official README file.
 
 
 
