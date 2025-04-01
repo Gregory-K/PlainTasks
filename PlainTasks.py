@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sublime
-import sublime_plugin
+import sublime, sublime_plugin
 import os
 import re
+import webbrowser
 import itertools
+import threading
 from datetime import datetime, tzinfo, timedelta
 import time
 
@@ -24,6 +25,10 @@ if not ST3 and platform == 'linux':
     import codecs as io
 else:
     import io
+
+NT = platform == 'windows'
+if NT:
+    import subprocess
 
 if ST3:
     from datetime import timezone
