@@ -7,49 +7,17 @@ import re
 import webbrowser
 import itertools
 import threading
-from datetime import datetime, tzinfo, timedelta
+from datetime import datetime, timezone, timedelta
 import time
+import io
 
 platform = sublime.platform()
-ST3 = int(sublime.version()) >= 3000
-
-if ST3:
-    from .APlainTasksCommon import PlainTasksBase, PlainTasksFold, get_all_projects_and_separators
-else:
-    from APlainTasksCommon import PlainTasksBase, PlainTasksFold, get_all_projects_and_separators
-    sublime_plugin.ViewEventListener = object
-
-# io is not operable in ST2 on Linux, but in all other cases io is better
-# https://github.com/SublimeTextIssues/Core/issues/254
-if not ST3 and platform == 'linux':
-    import codecs as io
-else:
-    import io
-
 NT = platform == 'windows'
+
+from .APlainTasksCommon import PlainTasksBase, PlainTasksFold, get_all_projects_and_separators
+
 if NT:
     import subprocess
-
-if ST3:
-    from datetime import timezone
-else:
-    class timezone(tzinfo):
-        __slots__ = ("_offset", "_name")
-
-        def __init__(self, offset, name=None):
-            if not isinstance(offset, timedelta):
-                raise TypeError("offset must be a timedelta")
-            self._offset = offset
-            self._name = name
-
-        def utcoffset(self, dt):
-            return self._offset
-
-        def tzname(self, dt):
-            return self._name
-
-        def dst(self, dt):
-            return timedelta(0)
 
 
 def tznow():
@@ -533,8 +501,7 @@ class PlainTasksNewTaskDocCommand(sublime_plugin.WindowCommand):
     def run(self):
         view = self.window.new_file()
         view.settings().add_on_change('color_scheme', lambda: self.set_proper_scheme(view))
-        view.set_syntax_file('Packages/PlainTasks/PlainTasks.sublime-syntax' if ST3 else
-                             'Packages/PlainTasks/PlainTasks.tmLanguage')
+        view.set_syntax_file('Packages/PlainTasks/PlainTasks.sublime-syntax')
 
     def set_proper_scheme(self, view):
         if view.id() != sublime.active_window().active_view().id():
@@ -929,17 +896,15 @@ class PlainTasksGotoTag(sublime_plugin.TextCommand):
             self.view.find_by_selector('string.other.tag.todo.today')
             )
         window = self.view.window() or sublime.active_window()
-        items = [[self.view.substr(t), u'{0}: {1}'.format(self.view.rowcol(t.a)[0], self.view.substr(self.view.line(t)).strip())] for t in self.tags]
+        items = [[self.view.substr(t), f'{self.view.rowcol(t.a)[0]}: {self.view.substr(self.view.line(t)).strip()}']
+                for t in self.tags]
 
-        if ST3:
-            from bisect import bisect_left
-            # find the closest tag after current position of viewport, to avoid scrolling
-            closest_index = bisect_left([r.a for r in self.tags], self.view.layout_to_text(self.initial_viewport))
-            llen = len(self.tags)
-            selected_index = closest_index if closest_index < llen else llen - 1
-            window.show_quick_panel(items, self.on_done, 0, selected_index, self.on_highlighted)
-        else:
-            window.show_quick_panel(items, self.on_done)
+        from bisect import bisect_left
+        # find the closest tag after current viewport position to avoid scrolling
+        closest_index = bisect_left([r.a for r in self.tags], self.view.layout_to_text(self.initial_viewport))
+        llen = len(self.tags)
+        selected_index = closest_index if closest_index < llen else llen - 1
+        window.show_quick_panel(items, self.on_done, 0, selected_index, self.on_highlighted)
 
     def on_done(self, index):
         if index < 0:

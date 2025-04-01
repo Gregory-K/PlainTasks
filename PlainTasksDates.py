@@ -9,16 +9,10 @@ from datetime import datetime
 from datetime import timedelta
 
 NT = sublime.platform() == 'windows'
-ST3 = int(sublime.version()) >= 3000
-if ST3:
-    from .APlainTasksCommon import PlainTasksBase, PlainTasksEnabled, PlainTasksFold
-    MARK_SOON = sublime.DRAW_NO_FILL
-    MARK_INVALID = sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_SQUIGGLY_UNDERLINE
-else:
-    from APlainTasksCommon import PlainTasksBase, PlainTasksEnabled, PlainTasksFold
-    MARK_SOON = MARK_INVALID = 0
-    sublime_plugin.ViewEventListener = object
 
+from .APlainTasksCommon import PlainTasksBase, PlainTasksEnabled, PlainTasksFold
+MARK_SOON = sublime.DRAW_NO_FILL
+MARK_INVALID = sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_SQUIGGLY_UNDERLINE
 
 try:  # unavailable dependencies shall not break basic functionality
     from dateutil import parser as dateutil_parser
@@ -26,9 +20,7 @@ try:  # unavailable dependencies shall not break basic functionality
 except:
     dateutil_parser = None
 
-
-if ST3:
-    locale.setlocale(locale.LC_ALL, '')
+locale.setlocale(locale.LC_ALL, '')
 
 
 def is_yearfirst(date_format):
@@ -179,11 +171,11 @@ def parse_date(date_string, date_format='(%y-%m-%d %H:%M)', yearfirst=True, dayf
     '''
     Attempt to convert arbitrary string to datetime object
     date_string
-        Unicode
+        str
     date_format
-        Unicode
+        str
     yearfirst
-        boolin
+        bool
     default
         datetime object (now)
     '''
@@ -218,6 +210,11 @@ def parse_date(date_string, date_format='(%y-%m-%d %H:%M)', yearfirst=True, dayf
 
 
 def format_delta(view, delta):
+    """Format timedelta object for human-readable output.
+
+    Returns:
+        str object containing formatted duration
+    """
     delta -= timedelta(microseconds=delta.microseconds)
     if view.settings().get('decimal_minutes', False):
         days = delta.days
@@ -244,8 +241,7 @@ class PlainTasksToggleHighlightPastDue(PlainTasksEnabled):
         dates_strings = []
         dates_regions = self.view.find_all(pattern, 0, '\\1', dates_strings)
         if not dates_regions:
-            if ST3:
-                self.view.settings().set('plain_tasks_remain_time_phantoms', [])
+            self.view.settings().set('plain_tasks_remain_time_phantoms', [])
             return
 
         past_due, due_soon, misformatted, phantoms = self.group_due_tags(dates_strings, dates_regions)
@@ -260,8 +256,6 @@ class PlainTasksToggleHighlightPastDue(PlainTasksEnabled):
         self.view.add_regions('due_soon', due_soon, scope_due_soon, icon_due_soon, MARK_SOON)
         self.view.add_regions('misformatted', misformatted, scope_misformatted, icon_misformatted, MARK_INVALID)
 
-        if not ST3:
-            return
         if self.view.settings().get('show_remain_due', False):
             self.view.settings().set('plain_tasks_remain_time_phantoms', phantoms)
         else:
@@ -364,15 +358,15 @@ class PlainTasksCalculateTimeForTask(PlainTasksEnabled):
     def run(self, edit, started_matches, toggle_matches, now, eol, tag='lasted'):
         '''
         started_matches
-            list of Unicode objects
+            list of str objects
         toggle_matches
-            list of Unicode objects
+            list of str objects
         now
-            Unicode object, moment of completion or cancellation of a task
+            str object, moment of completion or cancellation of a task
         eol
             int as str (abs. point of end of task line without line break)
         tag
-            Unicode object (lasted for complete, wasted for cancelled)
+            str object (lasted for complete, wasted for cancelled)
         '''
         if not started_matches:
             return
@@ -567,7 +561,7 @@ class PlainTasksCalendar(sublime_plugin.TextCommand):
         Return tuple of two elements
         Region
             which will be replaced with chosen date, it may be parentheses belong to tag, or end of tag, or point
-        Unicode
+        str
             tag under cursor (i.e. point)
         '''
         start = end = point

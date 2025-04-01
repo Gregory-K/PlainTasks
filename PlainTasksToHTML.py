@@ -6,23 +6,11 @@ import re
 import webbrowser
 import cgi
 import tempfile
+import io
 
 platform = sublime.platform()
-ST2 = int(sublime.version()) < 3000
-
-# io is not operable in ST2 on Linux, but in all other cases io is better
-# https://github.com/SublimeTextIssues/Core/issues/254
-if ST2 and platform == 'linux':
-    import codecs as io
-else:
-    import io
-
-if not ST2:
-    from .plist_parser import parse_file
-    from .PlainTasks import PlainTasksBase
-else:
-    from plist_parser import parse_file
-    from PlainTasks import PlainTasksBase
+from .plist_parser import parse_file
+from .PlainTasks import PlainTasksBase
 
 
 def hex_to_rgba(value):

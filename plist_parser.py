@@ -16,11 +16,6 @@ import re
 import sys
 
 
-if sys.version_info >= (3,):
-    # Some forwards compatability
-    basestring = str
-
-
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
     pass
@@ -29,8 +24,8 @@ class PropertyListParseError(Exception):
 class XmlPropertyListParser(object):
     """The ``XmlPropertyListParser`` class provides methods that
     convert `Property Lists`_ objects from xml format.
-    Property list objects include ``string``, ``unicode``,
-    ``list``, ``dict``, ``datetime``, and ``int`` or ``float``.
+    Property list objects include ``str``, ``list``, ``dict``, ``datetime``,
+    and ``int`` or ``float``.
 
         :copyright: 2008 by Takanori Ishikawa <takanori.ishikawa@gmail.com>
         :license: MIT License
@@ -94,12 +89,6 @@ class XmlPropertyListParser(object):
         if name in XmlPropertyListParser.PARSE_CALLBACKS:
             # Creates character string from buffered characters.
             content = ''.join(self.__characters)
-            # For compatibility with ``xml.etree`` and ``plistlib``,
-            # convert text string to ascii, if possible
-            try:
-                content = content.encode('ascii')
-            except (UnicodeError, AttributeError):
-                pass
             XmlPropertyListParser.PARSE_CALLBACKS[name](self, name, content)
             self.__characters = None
 
@@ -235,9 +224,9 @@ class XmlPropertyListParser(object):
     # XmlPropertyListParser
     # ------------------------------------------------
     def _to_stream(self, io_or_string):
-        if isinstance(io_or_string, basestring):
-            # Creates a string stream for in-memory contents.
-            from cStringIO import StringIO
+        if isinstance(io_or_string, str):
+            # Use StringIO from io module for Python 3
+            from io import StringIO
             return StringIO(io_or_string)
         elif hasattr(io_or_string, 'read') and callable(getattr(io_or_string, 'read')):
             return io_or_string
