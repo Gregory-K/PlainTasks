@@ -1,18 +1,20 @@
-# PlainTasks (ST3)
+# PlainTasks (ST4)
 
 This is a **fork of [PlainTasks](https://github.com/warmdev/PlainTasks)**: An opinionated to-do list plugin for [Sublime Text](https://www.sublimetext.com/) editor.
 
-Current '[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' branch is just a personal sandbox.  
-It targets Sublime Text 3 and possibly works with ST2 too.  
-Since 2025-04-02, no changes from dev-ST4 will be backported.
+Current '[**dev-ST4**](https://github.com/Gregory-K/PlainTasks)' branch is just a personal sandbox.
+It targets Sublime Text 4 and Python 3.8.
 
 TASKS:  
+- Incorporate the PlainTasks Material Theme.
+- Incorporate the PlainTasks Mariana Theme.
 - Remove the default keymaps. **@done**  
   <sup>and minimise the override effort by the user</sup>
 - Harmonisation with the PlainTasks Overview Python script. **@done**  
   <sup>(sometime in the future, it may be publicly available)</sup>
 - Remove openlink and openurl commands **@done**  
   <sup>functionality provided now by the FilePath (soon) ST plugin and ST4 natively</sup>
+- Transition to ST4 and Python 3.8 only **@done** 
 
 
 ## Try
@@ -43,7 +45,7 @@ _alt. way_
 1. Go to `Packages` folder (if you don't know, click menu `Preferences` > `Browse Packages`).
 2. Create a directory named 'PlainTasks' and 'cd' inside it.
 3. From command line
-    - Default 'dev' branch  
+    - Default 'dev-ST4' branch  
       `git clone --depth 1 https://github.com/Gregory-K/PlainTasks .`
     - 'dev-ST3' branch _see [Notes](#Notes)_  
       `git clone --depth 1 --branch dev-ST3 https://github.com/Gregory-K/PlainTasks .`
