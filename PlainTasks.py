@@ -828,27 +828,27 @@ class PlainTasksHover(sublime_plugin.ViewEventListener):
     '''Show popup with actions when hover over bullet'''
 
     msg = ('<style>'  # four curly braces because it will be modified with format method twice
-            'html {{{{background-color: color(var(--background) blenda(white 75%))}}}}'
-            'body {{{{margin: .1em .3em}}}}'
+            'html {{{{background-color: color(var(--background) blenda(white 85%))}}}}'
+            'body {{{{margin: .3em; padding: 0 .3em}}}}'
             'p {{{{margin: .5em 0}}}}'
             'a {{{{text-decoration: none}}}}'
-            'span.icon {{{{font-weight: bold; font-size: 1.3em}}}}'
+            'span.icon {{{{font-weight: normal; font-size: 1.3em}}}}'
             '#icon-done {{{{color: var(--greenish)}}}}'
             '#icon-cancel {{{{color: var(--redish)}}}}'
-            '#icon-archive {{{{color: var(--bluish)}}}}'
-            '#icon-outside {{{{color: var(--purplish)}}}}'
+            '#icon-archive {{{{color: var(--gray)}}}}'
+            '#icon-outside {{{{color: var(--gray)}}}}'
             '#done {{{{color: var(--greenish)}}}}'
             '#cancel {{{{color: var(--redish)}}}}'
-            '#archive {{{{color: var(--bluish)}}}}'
-            '#outside {{{{color: var(--purplish)}}}}'
+            '#archive {{{{color: var(--gray)}}}}'
+            '#outside {{{{color: var(--gray)}}}}'
            '</style><body>'
            '{actions}'
            )
 
-    complete = '<a href="complete\v{point}"><span class="icon" id="icon-done">✔</span> <span id="done">Toggle complete</span></a>'
-    cancel = '<a href="cancel\v{point}"><span class="icon" id="icon-cancel">✘</span> <span id="cancel">Toggle cancel</span></a>'
-    archive = '<a href="archive\v{point}"><span class="icon" id="icon-archive">📚</span> <span id="archive">Archive</span></a>'
-    archivetofile = '<a href="tofile\v{point}"><span class="icon" id="icon-outside">📤</span> <span id="outside">Archive to file</span></a>'
+    complete = '<a href="complete\v{point}"><span class="icon" id="icon-done">+</span> &nbsp;<span id="done">Toggle complete</span></a>'
+    cancel = '<a href="cancel\v{point}"><span class="icon" id="icon-cancel">x</span> &nbsp;<span id="cancel">Toggle cancel</span></a>'
+    archive = '<a href="archive\v{point}"><span class="icon" id="icon-archive">a</span> &nbsp;<span id="archive">Archive</span></a>'
+    archivetofile = '<a href="tofile\v{point}">*<span class="icon" id="icon-outside">a</span> <span id="outside">Archive to file</span></a>'
 
     actions = {
         'text.todo meta.item.todo.pending': '<p>{complete}</p><p>{cancel}</p>'.format(complete=complete, cancel=cancel),
