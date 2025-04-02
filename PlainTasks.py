@@ -560,8 +560,12 @@ class PlainTasksSortByDate(PlainTasksBase):
 
             tasks_prefixed_date.sort(reverse=self.view.settings().get('new_on_top', True))
             eol = archive_pos.end()
+            # Create a raw string for the regex pattern
+            pattern = r"^\([\d\w,\.:\-\/ ]*\)([^\b]*$)"
             for a in tasks_prefixed_date:
-                eol += self.view.insert(edit, eol, f'\n{re.sub(r"^\([\d\w,\.:\-\/ ]*\)([^\b]*$)", "\\1", a)}')  # Lines 626-627
+                # Use the pattern in re.sub() outside the f-string
+                replaced = re.sub(pattern, "\\1", a)
+                eol += self.view.insert(edit, eol, f'\n{replaced}')
         else:
             sublime.status_message("Nothing to sort")
 
