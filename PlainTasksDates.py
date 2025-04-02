@@ -169,43 +169,58 @@ def expand_short_date(view, start, end, now, date_format):
 def parse_date(date_string, date_format='(%y-%m-%d %H:%M)', yearfirst=True, dayfirst=False, default=None):
     '''
     Attempt to convert arbitrary string to datetime object
-    date_string
-        str
-    date_format
-        str
-    yearfirst
-        bool
-    default
-        datetime object (now)
+
+    Args:
+        date_string (str): The date string to parse
+        date_format (str): Expected format, defaults to '(%y-%m-%d %H:%M)'
+        yearfirst (bool): Whether year comes first in ambiguous dates
+        dayfirst (bool): Whether day comes first in ambiguous dates
+        default (datetime): Default datetime object to use for missing values
+
+    Returns:
+        tuple: (datetime object or None, error tuple or None)
     '''
+    if not date_string:
+        return None, ('Empty date string', None, None, None, None, None)
+
+    # First try exact format match
     try:
-        return datetime.strptime(date_string, date_format), None
+        # Strip parentheses from format and string if present
+        clean_format = date_format.strip('()')
+        clean_string = date_string.strip('()')
+        return datetime.strptime(clean_string, clean_format), None
     except ValueError as e:
-        print(e)
         pass
+
+    # Try parsing with dateutil if available
     bare_date_string = date_string.strip('( )')
     items = len(bare_date_string.split('-' if '-' in bare_date_string else '.'))
+
     try:
+        # Handle special short date cases
         if items < 2 and len(bare_date_string) < 3:
-            # e.g. @due(1) is always first day of next month,
-            # but dateutil consider it 1st day of current month
             raise Exception("Special case of short date: less than 2 numbers")
         if items < 3 and any(s in date_string for s in '-.'):
-            # e.g. @due(2-1) is always Fabruary 1st of next year,
-            # but dateutil consider it this year
             raise Exception("Special case of short date: less than 3 numbers")
-        date = dateutil_parser.parse(bare_date_string,
-                                     yearfirst=yearfirst,
-                                     dayfirst=dayfirst,
-                                     default=default)
-        if NT and all((date.year < 1900, '%y' in date_format)):
-            return None, ('format %y requires year >= 1900 on Windows', date.year, date.month, date.day, date.hour, date.minute)
+
+        if dateutil_parser:
+            date = dateutil_parser.parse(bare_date_string,
+                                       yearfirst=yearfirst,
+                                       dayfirst=dayfirst,
+                                       default=default)
+
+            # Handle Windows limitation for years before 1900
+            if NT and all((date.year < 1900, '%y' in date_format)):
+                return None, ('format %y requires year >= 1900 on Windows',
+                            date.year, date.month, date.day,
+                            date.hour, date.minute)
+            return date, None
+
     except Exception as e:
-        print(e)
-        date, error = convert_date(bare_date_string, default)
-    else:
-        error = None
-    return date, error
+        # Fall back to manual date conversion
+        return convert_date(bare_date_string, default)
+
+    return None, ('Failed to parse date', None, None, None, None, None)
 
 
 def format_delta(view, delta):
