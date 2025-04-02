@@ -31,6 +31,15 @@
       { "key": "selector", "operator": "equal", "operand": "text.todo"}
     ]
   },
+  // Handle conversion from italic to bold - prevent cursor jump when adding second asterisk
+  { "keys": ["*"], "command": "insert_snippet", "args": {"contents": "*$SELECTION"}, "context":
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+      { "key": "selection_empty", "operator": "equal", "operand": true },
+      { "key": "selector", "operator": "equal", "operand": "text.todo todo.italic"},
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "\\*[^\\*]+$"}
+    ]
+  },
   // remove bold with same keys, toggle
   { "keys": ["*"], "command": "plain_tasks_remove_bold",  "context":
     [
