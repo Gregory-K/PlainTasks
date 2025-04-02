@@ -266,14 +266,14 @@ pending tasks with selected tags will remain visible (and their notes and projec
 
 ☐ Completion rules (<kbd>ctrl+space</kbd> or <kbd>alt+/</kbd> to see list of them):  
 
-- type `t`, press <kbd>tab</kbd> — it’ll become `@today` — this one is highlighted differently than other tags;
-- `c`, <kbd>tab</kbd> — `@critical`;
-- `h`, <kbd>tab</kbd> — `@high`;
-- `l`, <kbd>tab</kbd> — `@low`;
-- `s`, <kbd>tab</kbd> — `@started` — press <kbd>tab</kbd> again and current date will be inserted, when you’ll complete or cancel a task with such tag, you’ll know how many time has passed since start; if you have to change done/cancelled/started time, then you can recalculate the time spent on task by pressing <kbd>tab</kbd> while cursor is placed on a tag;
-- `tg`, <kbd>tab</kbd>, <kbd>tab</kbd> work in the same manner as `s`, but inserts `@toggle(current date)` — so you can pause and resume to get more correct result when done/cancel; each toggle tag is either pause or resume depending on its place in sequence;
-- `cr`, <kbd>tab</kbd>, <kbd>tab</kbd> — `@created(current date)` (<kbd>⌘ + shift + enter</kbd> creates a new task with this tag);
-- `d`, <kbd>tab</kbd> — `@due( )`  
+- type `t`, press <kbd>tab</kbd> — it’ll become `@today` — this one is highlighted differently than other tags;
+- `c`, <kbd>tab</kbd> — `@critical`;
+- `h`, <kbd>tab</kbd> — `@high`;
+- `l`, <kbd>tab</kbd> — `@low`;
+- `s`, <kbd>tab</kbd> — `@started` — press <kbd>tab</kbd> again and current date will be inserted, when you’ll complete or cancel a task with such tag, you’ll know how many time has passed since start; if you have to change done/cancelled/started time, then you can recalculate the time spent on task by pressing <kbd>tab</kbd> while cursor is placed on a tag;
+- `tg`, <kbd>tab</kbd>, <kbd>tab</kbd> work in the same manner as `s`, but inserts `@toggle(current date)` — so you can pause and resume to get more correct result when done/cancel; each toggle tag is either pause or resume depending on its place in sequence;
+- `cr`, <kbd>tab</kbd>, <kbd>tab</kbd> — `@created(current date)` (<kbd>⌘ + shift + enter</kbd> creates a new task with this tag);
+- `d`, <kbd>tab</kbd> — `@due( )`  
   If you press <kbd>tab</kbd> again, it’ll insert current date, same for `@due( 0)`.  
   You can type short date (similar to [OrgMode’s date prompt](http://orgmode.org/manual/The-date_002ftime-prompt.html), but not the same) and then press <kbd>tab</kbd> to expand it into default format.  
   Short date should be __`@due(year-month-day hour:minute)`__  
@@ -312,7 +312,7 @@ pending tasks with selected tags will remain visible (and their notes and projec
         </table>
 
     - relative period of time starts with a plus sign or two  
-      __`+[+][number][DdWw][h:m]`__ — number is optional as well as letter `d` for days or letter `w` for weeks.
+      __`+[+][number][DdWw][h:m]`__ — number is optional as well as letter `d` for days or letter `w` for weeks.
 
         <table>
          <tr>
@@ -320,7 +320,7 @@ pending tasks with selected tags will remain visible (and their notes and projec
          </tr>
          <tr>
           <td>  <code>@due(+)</code>    </td>
-          <td>  tomorrow as well as <code>@due( +1)</code> or <code>@due( +1d)</code></td>
+          <td>  tomorrow as well as <code>@due( +1)</code> or <code>@due( +1d)</code></td>
          </tr>
          <tr>
           <td>  <code>@due(+w)</code>    </td>
@@ -467,7 +467,7 @@ PlainTasks comes with a custom todo icon that you can find in the `icons` folder
 ![](http://f.cl.ly/items/2t312B30121l2X1l0927/todo-icon.png)
 
 ## [BONUS] Custom Statistics
-Statistics of current file are represented in status-bar, based on `stats_format`, which is `"$n/$a done ($percent%) $progress Last task @done $last"` by default — as you can see it’s just a string containing special directives (see table bellow) and regular chars.
+Statistics of current file are represented in status-bar, based on `stats_format`, which is `"$n/$a done ($percent%) $progress Last task @done $last"` by default — as you can see it’s just a string containing special directives (see table bellow) and regular chars.
 
 | Directive    | Description                                           |
 | ------------ | ----------------------------------------------------- |
@@ -479,7 +479,7 @@ Statistics of current file are represented in status-bar, based on `stats_format
 | `$percent`   | Ratio of `$n` to `$a`                                 |
 | `$progress`  | Percent as pseudo graphics (absents if less than 10%) |
 | `$last`      | Date of lastly completed task                         |
-| `{{...}}`    | Return `pending/completed/cancelled` tasks which matched by regex `...`;<br> e.g. `{{@tag}}` — amounts of tasks with `@tag`; or `{{@a|@b}}` — tasks with either `@a` or `@b` or both.<br> You may add several `{{...}}` to get separate stats for different tags. |
+| `{{...}}`    | Return `pending/completed/cancelled` tasks which matched by regex `...`;<br> e.g. `{{@tag}}` — amounts of tasks with `@tag`; or `{{@a|@b}}` — tasks with either `@a` or `@b` or both.<br> You may add several `{{...}}` to get separate stats for different tags. |
 
 So you can customise it as you like, by adding to `Settings - User`, e.g.
 
@@ -501,7 +501,7 @@ Bring up the command palette and type `Tasks: Copy Statistics`.
     "bar_full": "■",   // any char
     "bar_empty": "☐", // any char
 
-    // if you want to avoid Unicode when copy stats — you can define replacements
+    // if you want to avoid Unicode when copy stats — you can define replacements
     // e.g. to convert ■■■■■■☐☐☐☐ to [======    ]
     "replace_stats_chars": [[" ■", " [="], ["■", "="], ["☐ ", " ] "], ["☐", " "]]
 }

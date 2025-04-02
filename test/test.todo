@@ -5,27 +5,29 @@ Due tags highlighting:
   ☐ overdue @due( --1)
     first day of current month, can be misformatted if dateutil module is unavailable
 
-  ☐ overdue     @due( 1-11-11)
+  ☐ overdue @due( 1-11-11)
+
     2001 year
 
-  ☐ overdue     @due( ) @due(yo) @due(0)
+  ☐ overdue @due( ) @due(yo) @due(0)
+
     it is today by a second before a moment when highlighting is executed
 
-  ☐ overdue     @due( ++) @created(11-11-18 16:32)
+  ☐ overdue @due( ++) @created(11-11-18 16:32)
     it is 2011-11-19
 
-  ☐ soon        @due( 23:)
+  ☐ soon    @due( 23:)
     it can be overdue if now is the last hour of a day
 
-  ☐ soon        @due( :59)
+  ☐ soon    @due( :59)
     it can be overdue if now is the last minute of an hour
 
-  ☐ soon        @due( +)
+  ☐ soon    @due( +)
     tomorrow
 
-  ☐ none        @due( +1w)
+  ☐ none    @due( +1w)
 
-  ☐ none        @due( 1)
+  ☐ none    @due( 1)
     it can be soon if today is the last day of a month
 
 Project:

@@ -125,7 +125,7 @@ class TestDatesFunctions(TestCase):
             ['(%d-%m-%y %H:%M)', False],
             ['(%b %d %Y %H:%M)', False],
             ['( %y-%m-%d %H:%M )', True],
-            ['( %d.%m.%y %H:%M )', False],
+            ['( %d.%m.%y %H:%M )', False],
         ]
         for (date_format, result) in cases:
             yf = PlainTasksDates.is_yearfirst(date_format)
@@ -138,7 +138,7 @@ class TestDatesFunctions(TestCase):
             ['(%d-%m-%y %H:%M)', True],
             ['(%b %d %Y %H:%M)', False],
             ['( %y-%m-%d %H:%M )', False],
-            ['( %d.%m.%y %H:%M )', True],
+            ['( %d.%m.%y %H:%M )', True],
         ]
         for (date_format, result) in cases:
             df = PlainTasksDates.is_dayfirst(date_format)

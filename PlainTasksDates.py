@@ -23,11 +23,11 @@ NT = sublime.platform() == 'windows'
 
 
 def is_yearfirst(date_format):
-    return date_format.strip('(  )').startswith(('%y', '%Y'))
+    return date_format.strip('(  )').startswith(('%y', '%Y'))
 
 
 def is_dayfirst(date_format):
-    return date_format.strip('(  )').startswith(('%d'))
+    return date_format.strip('(  )').startswith(('%d'))
 
 
 def _convert_date(matchstr, now):
@@ -599,12 +599,12 @@ class PlainTasksCalendar(sublime_plugin.TextCommand):
         y, m, d, H, M = date.year, date.month, date.day, date.hour, date.minute
 
         content = ('<style> #today {{color: var(--background); background-color: var(--foreground)}}</style>'
-                   '<br> <center><big>{prev_month} {next_month} {month}'
-                   '    {prev_year} {next_year} {year}</big></center><br><br>'
+                   '<br> <center><big>{prev_month} {next_month} {month}'
+                   '    {prev_year} {next_year} {year}</big></center><br><br>'
                    '{table}<br> {time}<br><br><hr>'
-                   '<br> Click day to insert date '
-                   '<br> into view, click month or '
-                   '<br> time to switch the picker <br><br>'
+                   '<br> Click day to insert date '
+                   '<br> into view, click month or '
+                   '<br> time to switch the picker <br><br>'
                    )
 
         locale.setlocale(locale.LC_ALL, '')  # to get native month name
@@ -620,9 +620,9 @@ class PlainTasksCalendar(sublime_plugin.TextCommand):
             row = ['']
             for day in week:
                 link = '<a href="day:{0}-{1}-{2}-{3}-{4}"{5}>{2}</a>'.format(y, m, day, H, M, ' id="today"' if d == day else '')
-                cell = ('  %s' % link if day < 10 else ' %s' % link) if day else '   '
+                cell = ('  %s' % link if day < 10 else ' %s' % link) if day else '   '
                 row.append(cell)
-            table += ' '.join(row + ['<br><br>'])
+            table += ' '.join(row + ['<br><br>'])
 
         time = '<a href="time:{0}-{1}-{2}-{3}-{4}">{5}</a>'.format(y, m, d, H, M, date.strftime('%H:%M'))
         return content.format(
@@ -642,9 +642,9 @@ class PlainTasksCalendar(sublime_plugin.TextCommand):
 
         def generate_months(stamp):
             y, m, d, H, M = (int(i) for i in stamp.split('-'))
-            months = ['<br>{5}<a href="year:{0}-{1}-{2}-{3}-{4}">{0}</a><br><br>'.format(y, m, d, H, M, ' ' * 8)]
+            months = ['<br>{5}<a href="year:{0}-{1}-{2}-{3}-{4}">{0}</a><br><br>'.format(y, m, d, H, M, ' ' * 8)]
             for i in range(1, 13):
-                months.append('{6}<a href="calendar:{0}-{1}-{2}-{3}-{4}">{5}</a> '.format(y, i, d, H, M, datetime(y, i, 1, H, M, 0).strftime('%b'), '•' if i == m else ' '))
+                months.append('{6}<a href="calendar:{0}-{1}-{2}-{3}-{4}">{5}</a> '.format(y, i, d, H, M, datetime(y, i, 1, H, M, 0).strftime('%b'), '•' if i == m else ' '))
                 if i in (4, 8, 12):
                     months.append('<br><br>')
             self.view.update_popup(''.join(months))
@@ -653,24 +653,24 @@ class PlainTasksCalendar(sublime_plugin.TextCommand):
             y, m, d, H, M = (int(i) for i in stamp.split('-'))
             years = ['<br>']
             for i in range(y - 6, y + 6):
-                years.append('{5}<a href="month:{0}-{1}-{2}-{3}-{4}">{0}</a> '.format(i, m, d, H, M, '•' if i == y else ' '))
+                years.append('{5}<a href="month:{0}-{1}-{2}-{3}-{4}">{0}</a> '.format(i, m, d, H, M, '•' if i == y else ' '))
                 if i in (y - 3, y + 1, y + 5):
                     years.append('<br><br>')
             self.view.update_popup(''.join(years))
 
         def generate_time(stamp):
             y, m, d, H, M = (int(i) for i in stamp.split('-'))
-            hours = ['<br> Hours:<br><br>']
+            hours = ['<br> Hours:<br><br>']
             for i in range(24):
-                hours.append('{6}{5}<a href="time:{0}-{1}-{2}-{3}-{4}">{3}</a> '.format(y, m, d, i, M, '•' if i == H else ' ', ' ' if i < 10 else ''))
+                hours.append('{6}{5}<a href="time:{0}-{1}-{2}-{3}-{4}">{3}</a> '.format(y, m, d, i, M, '•' if i == H else ' ', ' ' if i < 10 else ''))
                 if i in (7, 15, 23):
                     hours.append('<br><br>')
             minutes = ['<br> Minutes:<br><br>']
             for i in range(60):
-                minutes.append('{6}{5}<a href="time:{0}-{1}-{2}-{3}-{4}">{4}</a> '.format(y, m, d, H, i, '•' if i == M else ' ', ' ' if i < 10 else ''))
+                minutes.append('{6}{5}<a href="time:{0}-{1}-{2}-{3}-{4}">{4}</a> '.format(y, m, d, H, i, '•' if i == M else ' ', ' ' if i < 10 else ''))
                 if i in (9, 19, 29, 39, 49, 59):
                     minutes.append('<br><br>')
-            confirm = ['<br> <a href="calendar:{0}-{1}-{2}-{3}-{4}">Confirm: {5}</a> <br><br>'.format(y, m, d, H, M, datetime(y, m, d, H, M, 0).strftime('%H:%M'))]
+            confirm = ['<br> <a href="calendar:{0}-{1}-{2}-{3}-{4}">Confirm: {5}</a> <br><br>'.format(y, m, d, H, M, datetime(y, m, d, H, M, 0).strftime('%H:%M'))]
             self.view.update_popup(''.join(hours + minutes + confirm))
 
         def calendar(stamp):
