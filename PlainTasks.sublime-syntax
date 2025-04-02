@@ -8,6 +8,26 @@ file_extensions:
 scope: text.todo
 contexts:
   main:
+    - match: '^(#{4})[ \t]+(.+?)[ \t]*$'
+      scope: markup.heading.4.todo
+      captures:
+        1: punctuation.definition.heading.4.todo
+        2: entity.name.section.4.todo
+    - match: '^(#{3})[ \t]+(.+?)[ \t]*$'
+      scope: markup.heading.3.todo
+      captures:
+        1: punctuation.definition.heading.3.todo
+        2: entity.name.section.3.todo
+    - match: '^(#{2})[ \t]+(.+?)[ \t]*$'
+      scope: markup.heading.2.todo
+      captures:
+        1: punctuation.definition.heading.2.todo
+        2: entity.name.section.2.todo
+    - match: '^(#{1})[ \t]+(.+?)[ \t]*$'
+      scope: markup.heading.1.todo
+      captures:
+        1: punctuation.definition.heading.1.todo
+        2: entity.name.section.1.todo
     - match: '^\s*(\#?\s?\w+.*?:\s*?(\@[^\s]+(\(.*?\))?\s*?)*$\n?)'
       scope: keyword.control.header.todo
     - match: '^\s*(?:(\+|✓|✔|☑|√|\[x\])(\s+(?:[^\@\n]|(?<!\s)\@|\@(?=\s))*)([^\n]*))|^\s*(?:(-)(\s+(?:[^\@]|(?<!\s)\@|\@(?=\s))*)(.*\@done(?=\s|\(|$)[^\n]*))'
