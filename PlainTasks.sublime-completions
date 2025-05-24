@@ -9,6 +9,7 @@
   {"trigger": "@tg", "contents": "toggle"},
   {"trigger": "@du", "contents": "due( $0)"},
   {"trigger": "@cre", "contents": "created"},
+  {"trigger": "@be", "contents": "begin( $0)"},
   {"trigger": "@ti", "contents": "tid($0)"}
  ]
 }
