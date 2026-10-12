@@ -86,8 +86,8 @@ class PlainTasksNewCommand(PlainTasksBase):
         eol  = None
         for i, line in enumerate(regions):
             line_contents  = self.view.substr(line).rstrip()
-            not_empty_line = re.match('^(\s*)(\S.*)$', self.view.substr(line))
-            empty_line     = re.match('^(\s+)$', self.view.substr(line))
+            not_empty_line = re.match(r'^(\s*)(\S.*)$', self.view.substr(line))
+            empty_line     = re.match(r'^(\s+)$', self.view.substr(line))
             current_scope  = self.view.scope_name(line.a)
             eol = line.b  # need for ST3 when new content has line break
             if 'item' in current_scope:
@@ -206,7 +206,7 @@ class PlainTasksCompleteCommand(PlainTasksBase):
                         'now': now,
                         'eol': line.end() + eol}
                 )
-                indent = re.match('^(\s*)\S', line_contents, re.U)
+                indent = re.match(r'^(\s*)\S', line_contents, re.U)
                 self.view.insert(edit, line.begin() + len(indent.group(1)), '%s ' % self.done_tasks_bullet)
                 self.view.run_command('plain_tasks_calculate_total_time_for_project', {'start': line.a})
             elif 'completed' in current_scope:
@@ -380,7 +380,7 @@ class PlainTasksCancelCommand(PlainTasksBase):
                         'eol': line.end() + eol,
                         'tag': 'wasted'}
                 )
-                indent = re.match('^(\s*)\S', line_contents, re.U)
+                indent = re.match(r'^(\s*)\S', line_contents, re.U)
                 self.view.insert(edit, line.begin() + len(indent.group(1)), '%s ' % self.canc_tasks_bullet)
                 self.view.run_command('plain_tasks_calculate_total_time_for_project', {'start': line.a})
             elif 'completed' in current_scope:
@@ -899,7 +899,7 @@ class PlainTasksStatsStatus(sublime_plugin.EventListener):
         progress = '%s%s' % (barfull*factor, barempty*(10-factor)) if factor else ''
 
         tasks_dates = []
-        view.find_all('(^\s*[^\n]*?\s\@(?:done)\s*(\([\d\w,\.:\-\/ ]*\))[^\n]*$)', 0, "\\2", tasks_dates)
+        view.find_all(r'(^\s*[^\n]*?\s\@(?:done)\s*(\([\d\w,\.:\-\/ ]*\))[^\n]*$)', 0, "\\2", tasks_dates)
         date_format = view.settings().get('date_format', '(%y-%m-%d %H:%M)')
         tasks_dates = [check_parentheses(date_format, t, is_date=True) for t in tasks_dates]
         tasks_dates.sort(reverse=True)
