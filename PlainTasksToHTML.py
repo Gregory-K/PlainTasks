@@ -4,7 +4,7 @@ import sublime
 import os
 import re
 import webbrowser
-import cgi
+from html import escape as html_escape  # cgi removed in Python 3.13
 import tempfile
 import io
 
@@ -152,7 +152,7 @@ class PlainTasksConvertToHtml(PlainTasksBase):
             i = self.view.scope_name(r.a)
 
             if patterns['HEADER'] in i:
-                ht = '<span class="header">%s</span>' % cgi.escape(self.view.substr(r))
+                ht = '<span class="header">%s</span>' % html_escape(self.view.substr(r))
 
             elif i == patterns['EMPTY']:
                 # these are empty lines (i.e. linebreaks, but span can be {display:none})
@@ -164,13 +164,13 @@ class PlainTasksConvertToHtml(PlainTasksBase):
                 for s in scopes:
                     sn = self.view.scope_name(s.a)
                     if 'italic' in sn:
-                        note += '<i>%s</i>' % cgi.escape(self.view.substr(s).strip('_*'))
+                        note += '<i>%s</i>' % html_escape(self.view.substr(s).strip('_*'))
                     elif 'bold' in sn:
-                        note += '<b>%s</b>' % cgi.escape(self.view.substr(s).strip('_*'))
+                        note += '<b>%s</b>' % html_escape(self.view.substr(s).strip('_*'))
                     elif 'url' in sn:
-                        note += '<a href="{0}">{0}</a>'.format(cgi.escape(self.view.substr(s).strip('<>')))
+                        note += '<a href="{0}">{0}</a>'.format(html_escape(self.view.substr(s).strip('<>')))
                     else:
-                        note += cgi.escape(self.view.substr(s))
+                        note += html_escape(self.view.substr(s))
                 ht = note + '</span>'
 
             elif patterns['OPEN'] in i:
@@ -182,7 +182,7 @@ class PlainTasksConvertToHtml(PlainTasksBase):
                     if 'bullet' in sn:
                         pending += '<span class="bullet-pending">%s</span>' % self.view.substr(s)
                     elif 'meta.tag' in sn:
-                        pending += '<span class="tag">%s</span>' % cgi.escape(self.view.substr(s))
+                        pending += '<span class="tag">%s</span>' % html_escape(self.view.substr(s))
                     elif 'tag.todo.today' in sn:
                         pending += '<span class="tag-today">%s</span>' % self.view.substr(s)
                     elif 'tag.todo.critical' in sn:
@@ -192,13 +192,13 @@ class PlainTasksConvertToHtml(PlainTasksBase):
                     elif 'tag.todo.low' in sn:
                         pending += '<span class="tag-low">%s</span>' % self.view.substr(s)
                     elif 'italic' in sn:
-                        pending += '<i>%s</i>' % cgi.escape(self.view.substr(s).strip('_*'))
+                        pending += '<i>%s</i>' % html_escape(self.view.substr(s).strip('_*'))
                     elif 'bold' in sn:
-                        pending += '<b>%s</b>' % cgi.escape(self.view.substr(s).strip('_*'))
+                        pending += '<b>%s</b>' % html_escape(self.view.substr(s).strip('_*'))
                     elif 'url' in sn:
-                        pending += '<a href="{0}">{0}</a>'.format(cgi.escape(self.view.substr(s).strip('<>')))
+                        pending += '<a href="{0}">{0}</a>'.format(html_escape(self.view.substr(s).strip('<>')))
                     else:
-                        pending += cgi.escape(self.view.substr(s))
+                        pending += html_escape(self.view.substr(s))
                 ht = pending + '</span>'
 
             elif patterns['DONE'] in i:
@@ -210,9 +210,9 @@ class PlainTasksConvertToHtml(PlainTasksBase):
                     if 'bullet' in sn:
                         done += '<span class="bullet-done">%s</span>' % self.view.substr(s)
                     elif 'tag.todo.completed' in sn:
-                        done += '<span class="tag-done">%s</span>' % cgi.escape(self.view.substr(s))
+                        done += '<span class="tag-done">%s</span>' % html_escape(self.view.substr(s))
                     else:
-                        done += cgi.escape(self.view.substr(s))
+                        done += html_escape(self.view.substr(s))
                 ht = done + '</span>'
 
             elif patterns['CANCELLED'] in i:
@@ -224,16 +224,16 @@ class PlainTasksConvertToHtml(PlainTasksBase):
                     if 'bullet' in sn:
                         cancelled += '<span class="bullet-cancelled">%s</span>' % self.view.substr(s)
                     elif 'tag.todo.cancelled' in sn:
-                        cancelled += '<span class="tag-cancelled">%s</span>' % cgi.escape(self.view.substr(s))
+                        cancelled += '<span class="tag-cancelled">%s</span>' % html_escape(self.view.substr(s))
                     else:
-                        cancelled += cgi.escape(self.view.substr(s))
+                        cancelled += html_escape(self.view.substr(s))
                 ht = cancelled + '</span>'
 
             elif patterns['SEPARATOR'] in i:
-                ht = '<span class="sep">%s</span>' % cgi.escape(self.view.substr(r))
+                ht = '<span class="sep">%s</span>' % html_escape(self.view.substr(r))
 
             elif patterns['ARCHIVE'] in i:
-                ht = '<span class="sep-archive">%s</span>' % cgi.escape(self.view.substr(r))
+                ht = '<span class="sep-archive">%s</span>' % html_escape(self.view.substr(r))
 
             else:
                 sublime.error_message('Hey! you are not supposed to see this message.\n'
