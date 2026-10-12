@@ -1,9 +1,9 @@
 # PlainTasks (ST4)
 
-This is a **fork of [PlainTasks](https://github.com/warmdev/PlainTasks)**: An opinionated to-do list plugin for [Sublime Text](https://www.sublimetext.com/) editor.
+This is a **fork of [PlainTasks](https://github.com/aziz/PlainTasks)**: An opinionated to-do list plugin for the [Sublime Text](https://www.sublimetext.com/) editor.
 
-Current '[**dev-ST4**](https://github.com/Gregory-K/PlainTasks)' branch is just a personal sandbox.
-It targets Sublime Text 4 and Python 3.8.
+The current '[**dev-ST4**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST4)' branch is just a personal sandbox.  
+It targets Sublime Text 4 (build 4213 or later) and Python 3.14.
 
 TASKS:  
 - Incorporate the PlainTasks Material Theme.
@@ -12,53 +12,59 @@ TASKS:
   <sup>and minimise the override effort by the user</sup>
 - Harmonisation with the PlainTasks Overview Python script. **@done**  
   <sup>(sometime in the future, it may be publicly available)</sup>
-- Remove openlink and openurl commands **@done**  
+- Remove openlink and openurl commands. **@done**  
   <sup>functionality provided now by the FilePath (soon) ST plugin and ST4 natively</sup>
-- Transition to ST4 and Python 3.8 only **@done** 
+- Transition to ST4 and Python 3.8 only ([last-py38](https://github.com/Gregory-K/PlainTasks/tree/last-py38)). **@done** 
+- Upgrade to Python 3.14 (ST4 build 4213+) **@done**
 
 
 ## Try
 
-for whomsoever wants to try it
+for whomsoever wants to try it...
 
-### Install
+### Prepare for Installation
 
-Remove "PlainTasks" from "Package Control", if previously installed.
+If PlainTasks was installed through Package Control, remove it first.  
+Then add the following to `Packages/User/Package Control.sublime-settings`, so that Package Control leaves this git-managed copy alone:
 
-Add to `Packages/User/Package Control.sublime-settings`,
-
-```
+```json
   "ignore_vcs_packages":
   [
     "PlainTasks"
-  ]
+  ],
 ```
 
-#### Manual installation
+### Install Manually
 
-1. Clone or download this repository (the default 'dev-ST4' branch for ST4 or the 'dev-ST3' branch for ST3/ST2 _see [Notes](#Notes)_).
-2. Rename the cloned or extracted root folder to `PlainTasks`.
-3. Move the `PlainTasks` folder to your Sublime Text's `Packages` folder. To find the `Packages` folder, click menu `Preferences` > `Browse Packages`.
+1. Download this repository as a ZIP archive (the default 'dev-ST4' branch).
+2. Extract it and rename the extracted root folder to `PlainTasks`.
+3. Move the `PlainTasks` folder into Sublime Text's `Packages` folder. To find the `Packages` folder, click the menu `Preferences` > `Browse Packages...`.
 4. Restart Sublime Text.
-
-_alt. way_  
-1. Go to `Packages` folder (if you don't know, click menu `Preferences` > `Browse Packages`).
-2. Create a directory named 'PlainTasks' and 'cd' inside it.
-3. From command line
-    - Default 'dev-ST4' branch  
-      `git clone --depth 1 https://github.com/Gregory-K/PlainTasks .`
-    - 'dev-ST3' branch _see [Notes](#Notes)_  
-      `git clone --depth 1 --branch dev-ST3 https://github.com/Gregory-K/PlainTasks .`
 
 #### Update
 
-Delete the contents of `Packages/PlainTasks` folder and repeat installation,  
+1. Delete the `Packages/PlainTasks` folder.  
+   Your settings and key bindings live safely in `Packages/User`.
+2. Repeat the steps of [Install Manually](#install-manually).
 
-or
+### Install with Git
 
-'cd' in `Packages/PlainTasks` and  
-`git fetch && git rebase` for Linux  
-`git fetch; git rebase` for Windows
+1. Open a terminal in the `Packages` folder (menu `Preferences` > `Browse Packages...`).
+2. Clone the default 'dev-ST4' branch into a folder named `PlainTasks`:  
+   `git clone --depth 1 https://github.com/Gregory-K/PlainTasks.git PlainTasks`
+3. Restart Sublime Text.
+
+#### Update
+
+Run the following inside `Packages/PlainTasks`:
+
+`git pull --rebase`
+
+Since history may be rewritten (see [Notes](#notes)), a rebase can fail. In that case, discard the local copy and match the remote branch:
+
+`git fetch && git reset --hard origin/dev-ST4`
+
+Restart Sublime Text afterwards.
 
 ### Key Bindings
 
@@ -197,15 +203,18 @@ _also found in the repository as `*.sublime-keymap.json` files:_
 
 ## Notes
 
-_Note: As mentioned above, this is a "playground". Expect rebases, resets, branch renaming._
+_Note: As mentioned above, this is a personal sandbox. Expect rebases, resets, and branch renames._
 
 Branches:  
-'[**dev-ST4**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST4)' : default branch for ST4 (WIP).  
-'[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' : branch for ST3/ST2.
+'[**dev-ST4**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST4)' : default branch for ST4 (build 4213+ & py3.14) (WIP).  
+'[**dev-ST3**](https://github.com/Gregory-K/PlainTasks/tree/dev-ST3)' : branch for ST3/ST2, **halted** (no longer maintained).
 
 Other Branches:  
 '[**upstream**](https://github.com/Gregory-K/PlainTasks/tree/upstream)' : clone of the official repository.  
 '[**upstream-dev**](https://github.com/Gregory-K/PlainTasks/tree/upstream-dev)' : whatever changes backported to 'upstream'.
+
+Tags:  
+'[**last-py38**](https://github.com/Gregory-K/PlainTasks/tree/last-py38)' : last version for ST4 (build <4213 & py3.8).  
 
 **All credits** go to the original author [**aziz**](https://github.com/aziz).
 
