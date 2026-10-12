@@ -155,8 +155,8 @@ class PlainTasksCompleteCommand(PlainTasksBase):
         done_line_end, now = self.format_line_end(self.done_tag, tznow())
         offset = len(done_line_end)
         rom = r'^(\s*)(\[\s\]|.)(\s*.*)$'
-        rdm = r'''
-            (?x)^(\s*)(\[x\]|.)                           # 0,1 indent & bullet
+        rdm = r'''(?x)
+            ^(\s*)(\[x\]|.)                               # 0,1 indent & bullet
             (\s*[^\b]*?(?:[^\@]|(?<!\s)\@|\@(?=\s))*?\s*) #   2 very task
             (?=
               ((?:\s@done|@project|@[wl]asted|$).*)   # 3 ending either w/ done or w/o it & no date
